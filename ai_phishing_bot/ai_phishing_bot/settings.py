@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+CORE_APPS=['campaigns']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + CORE_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +80,28 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',    # Replace with your database name
+        'USER': 'postgres',    # Replace with your database username
+        'PASSWORD': 'suzanne',  # Replace with your database password
+        'HOST': 'localhost',             # Or your database host
+        'PORT': '5433',                  # Or your database port
+    }
+}
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "catherinematthew17@gmail.com"
+EMAIL_HOST_PASSWORD = "sqqx rows zlyu lfps"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 
 # Password validation

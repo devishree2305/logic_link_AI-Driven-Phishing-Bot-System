@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload CSV File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            color: #333333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .file-input-container {
+            border: 2px dashed #cccccc;
+            border-radius: 8px;
+            padding: 30px;
+            cursor: pointer;
+            width: calc(100% - 40px); /* Adjusted width to account for padding */
+            margin: 20px auto; /* Centering and spacing */
+            max-width: 600px; /* Limit width for larger screens */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .file-input-container img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .file-input-container span {
+            color: #666666;
+            font-size: 18px;
+        }
+
+        .file-input-container.uploaded {
+            border-color: #3cba54; 
+        }
+
+        .file-input-container.uploaded span {
+            color: #3cba54;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        button {
+            background-color: #2b7ed7a9;
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .messages {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px; 
+        }
+
+        .messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .messages li {
+            background: #ffdddd;
+            color: #d8000c;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #d8000c;
+            border-radius: 4px;
+        }
+
+        .messages li.success {
+            background: #d4edda; 
+            color: #155724; 
+            border-left-color: #155724; 
+        }
+
+        .messages li.error {
+            background: #ffdddd;
+            color: #d8000c;
+            border-left-color: #d8000c;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload CSV File</h2>
+    <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_csv' %}" style="width: 100%; text-align: center;">
+        {% csrf_token %}
+        <label id="fileLabel" class="file-input-container">
+            <img id="uploadIcon" src="https://img.icons8.com/material-outlined/50/000000/upload.png" alt="Upload Icon">
+            <span id="uploadText">Click to Upload</span>
+            <input id="fileInput" type="file" name="csv_file" accept=".csv">
+        </label>
+        <button type="submit">Move To Next Step</button>
+    </form>
+    <div id="messages" class="messages">
+        <ul>
+            {% for message in messages %}
+                <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if uploaded_file_url %}
+        <p>Uploaded file URL: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    {% endif %}
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            var fileInput = this;
+            var fileLabel = document.getElementById('fileLabel');
+            var uploadIcon = document.getElementById('uploadIcon');
+            var uploadText = document.getElementById('uploadText');
+            var messagesContainer = document.getElementById('messages');
+            var messageList = messagesContainer.querySelector('ul');
+
+            // Clear previous messages
+            messageList.innerHTML = '';
+
+            if (fileInput.files.length > 0) {
+                var fileName = fileInput.files[0].name;
+                uploadIcon.src = 'https://img.icons8.com/material-outlined/50/3cba54/checkmark.png'; 
+                uploadText.textContent = 'Uploaded: ' + fileName;
+                fileLabel.classList.add('uploaded');
+                var successMessage = document.createElement('li');
+                successMessage.textContent = 'File "' + fileName + '" uploaded successfully.';
+                successMessage.classList.add('success');
+                messageList.appendChild(successMessage);
+            } else {
+                var errorMessage = document.createElement('li');
+                errorMessage.textContent = 'No file selected.';
+                errorMessage.classList.add('error');
+                messageList.appendChild(errorMessage);
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            var fileInput = document.getElementById('fileInput');
+
+            if (fileInput.files.length === 0) {
+                event.preventDefault();
+                var messagesContainer = document.getElementById('messages');
+                var messageList = messagesContainer.querySelector('ul');
+
+                // Clear previous messages
+                messageList.innerHTML = '';
+
+                var errorMessage = document.createElement('li');
+                errorMessage.textContent = 'No file selected.';
+                errorMessage.classList.add('error');
+                messageList.appendChild(errorMessage);
+            } else {
+                var fileLabel = document.getElementById('fileLabel');
+                var uploadIcon = document.getElementById('uploadIcon');
+                var uploadText = document.getElementById('uploadText');
+
+                fileLabel.classList.remove('uploaded');
+                uploadIcon.src = 'https://img.icons8.com/material-outlined/50/000000/upload.png';
+                uploadText.textContent = 'Click to Upload';
+            }
+        });
+    </script>
+</body>
+</html>

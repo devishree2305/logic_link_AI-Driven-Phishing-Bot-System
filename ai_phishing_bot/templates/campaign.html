@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Email Campaign</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Create Email Campaign</h1>
+    <form id="campaignForm" method="post" enctype="multipart/form-data" action="{% url 'add_campaign' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="from_email">From Email</label>
+            <input type="email" id="from_email" name="from_email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" id="image" name="image" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Send Emails</button>
+    </form>
+</div>
+
+<!-- Bootstrap and jQuery JavaScript libraries -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
