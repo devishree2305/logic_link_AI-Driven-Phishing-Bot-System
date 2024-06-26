@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ subject }}</title>
+    <style>
+        /* Optional: Add CSS styles for better email formatting */
+        .email-content {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .email-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .email-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-content">
+        <h2>{{ subject }}</h2>
+        <B><p>{{ description }}</p>
+        {% if image_url %}
+            <img src="{{ image_url }}" alt="Image" class="email-image">
+        {% endif %}
+        <p>
+            Here's an example of a hyperlink button:
+            <a href="https://www.google.com" class="email-button">Go to Google</a>
+        </p>
+    </div>
+</body>
+</html>

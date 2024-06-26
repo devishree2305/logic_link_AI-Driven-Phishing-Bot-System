@@ -7,8 +7,9 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 import csv
 from .models import UserData, testUserData
-from django.core.mail import send_mail
-
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def index(request):
     # Replace with your logic for the index view
@@ -48,6 +49,7 @@ def upload_csv(request):
 
     return render(request, 'upload.html')
 
+
 def add_campaign(request):
     if request.method == 'POST':
         try:
@@ -56,42 +58,39 @@ def add_campaign(request):
             description = request.POST.get('description')
             image = request.FILES.get('image')
 
-            # if not all([from_email, subject, description]):
-            #     messages.error(request, 'Please fill in all required fields.')
-            #     return redirect('campaign_html')
-
-            # # Save the image if it exists
-            # image_path = None
-            # if image:
-            #     fs = FileSystemStorage()
-            #     image_name = fs.save(image.name, image)
-            #     image_path = fs.path(image_name)
-
             # Fetch all email addresses from the database
             email_addresses = testUserData.objects.values_list('username', flat=True)
 
             # List of recipients
             recipient_list = list(email_addresses)
-            print("The recipient_list ",recipient_list)
 
-            # Send email using send_mail function
-            send_mail(
-                subject,
-                description,
-                from_email,
-                recipient_list,
-                fail_silently=False,  # Set to False to see exceptions
-                html_message=None,    # Optional HTML message
-            )
-            print("Sent")
+            # Prepare email content
+            html_content = render_to_string('email_template.html', {
+                'subject': subject,
+                'description': description,
+                'image_url': None  # Initialize image_url as None initially
+            })
+            text_content = strip_tags(html_content)
+
+            # Create EmailMultiAlternatives object
+            email = EmailMultiAlternatives(subject, text_content, from_email, recipient_list)
+            email.attach_alternative(html_content, "text/html")
+
+            # Attach image file if provided
+            if image:
+                fs = FileSystemStorage()
+                image_name = fs.save(image.name, image)
+                image_path = fs.path(image_name)
+                email.attach_file(image_path)
+
+            # Send email
+            email.send()
 
             messages.success(request, 'Emails have been sent successfully.')
             return render(request, 'campaign.html')
 
         except Exception as e:
-            print("Not snet")
             print(f'Failed to send emails: {str(e)}')
             messages.error(request, f'Failed to send emails: {str(e)}')
 
     return render(request, 'campaign.html')
-
