@@ -50,41 +50,41 @@ def upload_csv(request):
     return render(request, 'upload.html')
 
 
+
 def add_campaign(request):
     if request.method == 'POST':
         try:
             from_email = request.POST.get('from_email')
             subject = request.POST.get('subject')
             description = request.POST.get('description')
-            image = request.FILES.get('image')
+            image_url = request.FILES.get('image')
 
+          
             # Fetch all email addresses from the database
             email_addresses = testUserData.objects.values_list('username', flat=True)
 
             # List of recipients
             recipient_list = list(email_addresses)
+            print("Trying to check the image url",image_url)
 
             # Prepare email content
             html_content = render_to_string('email_template.html', {
                 'subject': subject,
                 'description': description,
-                'image_url': None  # Initialize image_url as None initially
+                'image_url': image_url,
             })
             text_content = strip_tags(html_content)
 
-            # Create EmailMultiAlternatives object
-            email = EmailMultiAlternatives(subject, text_content, from_email, recipient_list)
-            email.attach_alternative(html_content, "text/html")
-
-            # Attach image file if provided
-            if image:
-                fs = FileSystemStorage()
-                image_name = fs.save(image.name, image)
-                image_path = fs.path(image_name)
-                email.attach_file(image_path)
-
-            # Send email
-            email.send()
+            # Send email using send_mail function
+            send_mail(
+                subject,
+                text_content,
+                from_email,
+                recipient_list,
+                html_message=html_content,  # Use HTML content
+                fail_silently=False,
+            )
+            
 
             messages.success(request, 'Emails have been sent successfully.')
             return render(request, 'campaign.html')

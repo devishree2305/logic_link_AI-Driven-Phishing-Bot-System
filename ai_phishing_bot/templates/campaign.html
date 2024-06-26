@@ -11,8 +11,8 @@
     <form id="campaignForm" method="post" enctype="multipart/form-data" action="{% url 'add_campaign' %}">
         {% csrf_token %}
         <div class="form-group">
-            <label for="from_email">From Email</label>
-            <input type="email" id="from_email" name="from_email" class="form-control" required>
+            <label for="from_email">Name</label> <!-- Updated label -->
+            <input type="text" id="from_email" name="from_email" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="subject">Subject</label>
