@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            height: 100vh; 
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            margin: 0; 
+        }
+        .button-container {
+            display: flex;
+            justify-content: center; 
+            gap: 20px; 
+        }
+        .button-container button {
+            width: 300px; 
+            height: 150px; 
+            padding: 15px; 
+            font-size: 18px; 
+            cursor: pointer;
+            color: antiquewhite; /* Text color */
+        }
+        .btn-primary-custom {
+            background-color: #007bff; /* Custom blue color */
+            border-color: #007bff;
+        }
+        .btn-primary-custom:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+        .btn-success-custom {
+            background-color: #28a745; /* Custom green color */
+            border-color: #28a745;
+        }
+        .btn-success-custom:hover {
+            background-color: #218838; /* Darker green on hover */
+            border-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="button-container">
+    <button onclick="location.href='upload_csv/'" class="btn btn-primary-custom">Upload CSV</button>
+    <button onclick="location.href='add_campaign/'" class="btn btn-success-custom">Add Campaign</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
