@@ -3,3 +3,4 @@
 # Created a dashboard to send phishing emails
 the dashboard is created to upload csv files 
 also the phishing emails are sent using smtp at a click of button 
+youtube video link:https://youtu.be/P2B72p2HjFk
