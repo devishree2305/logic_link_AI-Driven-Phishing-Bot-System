@@ -1,10 +1,4 @@
 # logic_link_AI-Driven-Phishing-Bot-System
 
-## How to Contribute
-1. Fork the repository.
-2. Clone the forked repository to your local machine.
-3. Create a new branch with your name.
-4. Implement the changes
-5. Commit your changes and push them to your forked repository(publish branch).
-6. Click fetch origin
-7. In github web, refresh, contribute and create a pull request to the main repository.
+## What we have completed
+We have worked on developing a system that will send phishing mails to the emails that are present on the dataset that we have uploaded on the database and inside the email we have embedded it with a link that will redirect the user to the page we are hosting it on GitHub and which on submission will store the information on the database.
